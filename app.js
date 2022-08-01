@@ -9,11 +9,11 @@ app.get("/", (req, res) => {
   res
     .status(200)
     .send(
-      `The Server is up and listening at ${req.get(
+      `<h5>The Server is up and listening at ${req.get(
         "host"
-      )} .<h2>Please visit at ${req.get(
+      )} .</h5><h5>Please visit at ${req.get(
         "host"
-      )}/api/v1/meta?url=websitename </h2>`
+      )}/api/v1/meta?url=websitename </h5>`
     );
 });
 
