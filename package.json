@@ -1,0 +1,27 @@
+{
+  "name": "link-previewer",
+  "version": "1.0.0",
+  "description": "preview that includes a link title, thumbnail image, and description of the link using metadata",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [
+    "link-preview",
+    "nodejs",
+    "express"
+  ],
+  "author": "salman khan",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "node-html-parser": "^5.3.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
