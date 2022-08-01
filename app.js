@@ -11,7 +11,7 @@ app.get("/", (req, res) => {
     .send(
       `<h5>The Server is up and listening at ${req.get(
         "host"
-      )} .</h5><h5>Please visit at ${req.get(
+      )} .</h5><h5>Please visit at ${req.protocol}://${req.get(
         "host"
       )}/api/v1/meta?url=websitename </h5>`
     );
