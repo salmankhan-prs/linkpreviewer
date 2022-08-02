@@ -25,6 +25,11 @@ const metaDataParser = async (url) => {
     meta = {},
     images = [],
     icons = [];
+
+  const ogInformation = {},
+    twitterInformation = {},
+    metaTagsInformation = {};
+
   //Get the title
   const title = $.querySelector("title");
   if (title) meta.title = title.text;
@@ -56,7 +61,12 @@ const metaDataParser = async (url) => {
     //Get the each meta Tags value
     ["title", "description", "image"].forEach((s) => {
       const val = readMT(el, s);
-      if (val) meta[s] = val;
+      if (val) {
+        meta[s] = val;
+        metaTagsInformation[s] = true;
+      } else {
+        metaTagsInformation[s] = false;
+      }
     });
 
     //Get the each OG Tags value
@@ -70,7 +80,30 @@ const metaDataParser = async (url) => {
     ].forEach((s) => {
       const val = readMT(el, s);
       //if the conetent is there in tags then save it in OG Object
-      if (val) og[s.split(":")[1]] = val;
+      if (val) {
+        og[s.split(":")[1]] = val;
+        ogInformation[s] = true;
+      } else {
+        ogInformation[s] = true;
+      }
+    });
+  }
+
+  //
+  //Grab all the meta Tags
+  const twitter = $.querySelectorAll("twitter");
+
+  for (let i = 0; i < twitter.length; i++) {
+    const el = metas[i];
+    //Get the each meta Tags value
+    ["twitter:card", "twitter:title ", "twitter:description"].forEach((s) => {
+      const val = readMT(el, s);
+      //if the conetent is there in tags then save it in OG Object
+      if (val) {
+        twitterInformation[s] = true;
+      } else {
+        twitterInformation[s] = false;
+      }
     });
   }
 
@@ -83,7 +116,15 @@ const metaDataParser = async (url) => {
     }
   });
 
-  return { meta, og, images, icons };
+  return {
+    meta,
+    og,
+    images,
+    icons,
+    ogInformation,
+    metaTagsInformation,
+    twitterInformation,
+  };
 };
 
 module.exports = metaDataParser;

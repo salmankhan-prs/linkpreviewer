@@ -36,7 +36,15 @@ const getMetaData = async (req, res) => {
         return createResponse(res, null);
       }
       //extract from the metadat Object
-      const { images, og, meta, icons } = metadata;
+      const {
+        images,
+        og,
+        meta,
+        icons,
+        ogInformation,
+        metaTagsInformation,
+        twitterInformation,
+      } = metadata;
 
       /*first check image from meta object if it  is present then assign it
        *  if  not  check in OG object if it  is present then assign it
@@ -71,6 +79,11 @@ const getMetaData = async (req, res) => {
         image,
         siteName,
         hostname,
+        tagsInformation: {
+          ogInformation,
+          metaTagsInformation,
+          twitterInformation,
+        },
       };
       //send the response
       createResponse(res, output);
