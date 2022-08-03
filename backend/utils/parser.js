@@ -25,13 +25,22 @@ const metaDataParser = async (url) => {
     meta = {},
     images = [],
     icons = [];
+  //to store tags exists or not information For Anlayzing
+  const ogInformation = {},
+    twitterInformation = {},
+    metaTagsInformation = {};
+
   //Get the title
   const title = $.querySelector("title");
-  if (title) meta.title = title.text;
+  if (title) {
+    meta[title] = title.text;
+    metaTagsInformation["title"] = true;
+  }
 
   const canonical = $.querySelector("link[rel=canonical]");
   if (canonical) {
     meta.url = canonical.getAttribute("href");
+    metaTagsInformation["url"] = true;
   }
   //if image is not present on OG tags or meta tags then we will use website icon as Image If It exists
   const iconImages = $.querySelector("link[rel=icon]");
@@ -56,7 +65,10 @@ const metaDataParser = async (url) => {
     //Get the each meta Tags value
     ["title", "description", "image"].forEach((s) => {
       const val = readMT(el, s);
-      if (val) meta[s] = val;
+      if (val) {
+        meta[s] = val;
+        metaTagsInformation[s] = true;
+      }
     });
 
     //Get the each OG Tags value
@@ -69,10 +81,53 @@ const metaDataParser = async (url) => {
       "og:type",
     ].forEach((s) => {
       const val = readMT(el, s);
+
       //if the conetent is there in tags then save it in OG Object
-      if (val) og[s.split(":")[1]] = val;
+      if (val) {
+        og[s.split(":")[1]] = val;
+        ogInformation[s] = true;
+      }
+    });
+
+    ["twitter:card", "twitter:title", "twitter:description"].forEach((s) => {
+      const val = readMT(el, s);
+      //if the conetent is there in tags then save it in twitter Object
+
+      if (val) {
+        twitterInformation[s] = true;
+      }
     });
   }
+
+  //
+
+  const twitterInformationArray = Object.keys(twitterInformation);
+  ["twitter:card", "twitter:title", "twitter:description"].forEach((s) => {
+    if (!twitterInformationArray.includes(s)) {
+      twitterInformation[s] = false;
+    }
+  });
+
+  const metaTagsInformationArray = Object.keys(metaTagsInformation);
+  ["title", "description", "image"].forEach((s) => {
+    if (!metaTagsInformationArray.includes(s)) {
+      metaTagsInformation[s] = false;
+    }
+  });
+
+  const ogInformationArray = Object.keys(ogInformation);
+  [
+    "og:title",
+    "og:description",
+    "og:image",
+    "og:url",
+    "og:site_name",
+    "og:type",
+  ].forEach((s) => {
+    if (!ogInformationArray.includes(s)) {
+      ogInformation[s] = false;
+    }
+  });
 
   // if image is not present in Meta tags then we will use images used in website If Present
   $.querySelectorAll("img").forEach((el) => {
@@ -83,7 +138,15 @@ const metaDataParser = async (url) => {
     }
   });
 
-  return { meta, og, images, icons };
+  return {
+    meta,
+    og,
+    images,
+    icons,
+    ogInformation,
+    metaTagsInformation,
+    twitterInformation,
+  };
 };
 
 module.exports = metaDataParser;
