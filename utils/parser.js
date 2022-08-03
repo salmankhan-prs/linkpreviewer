@@ -32,11 +32,15 @@ const metaDataParser = async (url) => {
 
   //Get the title
   const title = $.querySelector("title");
-  if (title) meta.title = title.text;
+  if (title) {
+    meta.title = title.text;
+    metaTagsInformation[title] = true;
+  }
 
   const canonical = $.querySelector("link[rel=canonical]");
   if (canonical) {
     meta.url = canonical.getAttribute("href");
+    metaTagsInformation[url] = true;
   }
   //if image is not present on OG tags or meta tags then we will use website icon as Image If It exists
   const iconImages = $.querySelector("link[rel=icon]");
@@ -91,7 +95,7 @@ const metaDataParser = async (url) => {
 
   //
   //Grab all the meta Tags
-  const twitter = $.querySelectorAll("twitter");
+  const twitter = $.querySelectorAll("meta");
 
   for (let i = 0; i < twitter.length; i++) {
     const el = metas[i];
