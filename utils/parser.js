@@ -86,8 +86,6 @@ const metaDataParser = async (url) => {
       if (val) {
         og[s.split(":")[1]] = val;
         ogInformation[s] = true;
-      } else {
-        ogInformation[s] = false;
       }
     });
 
