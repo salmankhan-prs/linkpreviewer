@@ -33,14 +33,14 @@ const metaDataParser = async (url) => {
   //Get the title
   const title = $.querySelector("title");
   if (title) {
-    meta.title = title.text;
-    metaTagsInformation[title] = true;
+    meta[title] = title.text;
+    metaTagsInformation["title"] = true;
   }
 
   const canonical = $.querySelector("link[rel=canonical]");
   if (canonical) {
     meta.url = canonical.getAttribute("href");
-    metaTagsInformation[url] = true;
+    metaTagsInformation["url"] = true;
   }
   //if image is not present on OG tags or meta tags then we will use website icon as Image If It exists
   const iconImages = $.querySelector("link[rel=icon]");
@@ -68,8 +68,6 @@ const metaDataParser = async (url) => {
       if (val) {
         meta[s] = val;
         metaTagsInformation[s] = true;
-      } else {
-        metaTagsInformation[s] = false;
       }
     });
 
@@ -83,36 +81,49 @@ const metaDataParser = async (url) => {
       "og:type",
     ].forEach((s) => {
       const val = readMT(el, s);
+
       //if the conetent is there in tags then save it in OG Object
       if (val) {
         og[s.split(":")[1]] = val;
         ogInformation[s] = true;
       } else {
-        ogInformation[s] = true;
+        ogInformation[s] = false;
+      }
+    });
+
+    ["twitter:card", "twitter:title", "twitter:description"].forEach((s) => {
+      const val = readMT(el, s);
+      //if the conetent is there in tags then save it in twitter Object
+
+      if (val) {
+        twitterInformation[s] = true;
       }
     });
   }
 
   //
-  //Grab all the meta Tags
-  const twitter = $.querySelectorAll("meta");
 
-  for (let i = 0; i < twitter.length; i++) {
-    const el = metas[i];
-    //Get the each meta Tags value
-    ["twitter:card", "twitter:title ", "twitter:description"].forEach((s) => {
-      const val = readMT(el, s);
-      //if the conetent is there in tags then save it in OG Object
-      if (val) {
-        twitterInformation[s] = true;
-      } else {
-        twitterInformation[s] = false;
-      }
-    });
-  }
-  if (twitter.length == 0) {
+  if (Object.keys(twitterInformation).length == 0) {
     ["twitter:card", "twitter:title ", "twitter:description"].forEach((s) => {
       twitterInformation[s] = false;
+    });
+  }
+
+  if (Object.keys(metaTagsInformation).length == 0) {
+    ["title", "description", "image"].forEach((s) => {
+      metaTagsInformation[s] = false;
+    });
+  }
+  if (Object.keys(ogInformation).length == 0) {
+    [
+      "og:title",
+      "og:description",
+      "og:image",
+      "og:url",
+      "og:site_name",
+      "og:type",
+    ].forEach((s) => {
+      ogInformation[s] = false;
     });
   }
 
