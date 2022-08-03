@@ -101,29 +101,33 @@ const metaDataParser = async (url) => {
 
   //
 
-  if (Object.keys(twitterInformation).length == 0) {
-    ["twitter:card", "twitter:title ", "twitter:description"].forEach((s) => {
+  const twitterInformationArray = Object.keys(twitterInformation);
+  ["twitter:card", "twitter:title ", "twitter:description"].forEach((s) => {
+    if (!twitterInformationArray.includes(s)) {
       twitterInformation[s] = false;
-    });
-  }
+    }
+  });
 
-  if (Object.keys(metaTagsInformation).length == 0) {
-    ["title", "description", "image"].forEach((s) => {
+  const metaTagsInformationArray = Object.keys(metaTagsInformation);
+  ["title", "description", "image"].forEach((s) => {
+    if (!metaTagsInformationArray.includes(s)) {
       metaTagsInformation[s] = false;
-    });
-  }
-  if (Object.keys(ogInformation).length == 0) {
-    [
-      "og:title",
-      "og:description",
-      "og:image",
-      "og:url",
-      "og:site_name",
-      "og:type",
-    ].forEach((s) => {
+    }
+  });
+
+  const ogInformationArray = Object.keys(ogInformation);
+  [
+    "og:title",
+    "og:description",
+    "og:image",
+    "og:url",
+    "og:site_name",
+    "og:type",
+  ].forEach((s) => {
+    if (!ogInformationArray.includes(s)) {
       ogInformation[s] = false;
-    });
-  }
+    }
+  });
 
   // if image is not present in Meta tags then we will use images used in website If Present
   $.querySelectorAll("img").forEach((el) => {
