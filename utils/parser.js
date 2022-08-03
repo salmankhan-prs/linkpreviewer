@@ -102,7 +102,7 @@ const metaDataParser = async (url) => {
   //
 
   const twitterInformationArray = Object.keys(twitterInformation);
-  ["twitter:card", "twitter:title ", "twitter:description"].forEach((s) => {
+  ["twitter:card", "twitter:title", "twitter:description"].forEach((s) => {
     if (!twitterInformationArray.includes(s)) {
       twitterInformation[s] = false;
     }
