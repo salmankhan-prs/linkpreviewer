@@ -79,14 +79,14 @@ const getMetaData = async (req, res) => {
         image,
         siteName,
         hostname,
-        tagsInformation: {
-          ogInformation,
-          metaTagsInformation,
-          twitterInformation,
-        },
+      };
+      const tagsInformation = {
+        ogInformation,
+        metaTagsInformation,
+        twitterInformation,
       };
       //send the response
-      createResponse(res, output);
+      createResponse(res, output, tagsInformation);
     }
   } catch (error) {
     //if any error
