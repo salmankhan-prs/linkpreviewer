@@ -25,7 +25,7 @@ const metaDataParser = async (url) => {
     meta = {},
     images = [],
     icons = [];
-
+  //to store tags exists or not information For Anlayzing
   const ogInformation = {},
     twitterInformation = {},
     metaTagsInformation = {};
@@ -104,6 +104,11 @@ const metaDataParser = async (url) => {
       } else {
         twitterInformation[s] = false;
       }
+    });
+  }
+  if (twitter.length == 0) {
+    ["twitter:card", "twitter:title ", "twitter:description"].forEach((s) => {
+      twitterInformation[s] = false;
     });
   }
 
