@@ -10,7 +10,7 @@ website preview that includes a link title, thumbnail image, and description of 
 
 ## Screenshots
 
-![App Screenshot](https://i.ibb.co/FhLGZXS/Screenshot-2022-08-03-174242.png")
+![App Screenshot](https://i.ibb.co/Z1qgTRs/2022-08-03-20-38-58-3.gif")
 
 
 ## API Reference
